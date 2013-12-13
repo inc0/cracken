@@ -16,13 +16,12 @@ from ralph_pricing import VERSION
 release = ".".join(str(num) for num in VERSION)
 
 setup(
-    name='ralph_pricing',
+    name='cracken',
     version=release,
-    author='Grupa Allegro Sp. z o.o. and Contributors',
-    author_email='it-ralph-dev@allegro.pl',
-    description="Pricing module for Ralph",
+    author='Contributors',
+    author_email='inc007@gmail.com',
+    description="Cool voice changer with magick and cookies",
     long_description=long_description,
-    url='http://ralph.allegrogroup.com/',
     keywords='',
     platforms=['any'],
     license='Apache Software License v2.0',
@@ -31,26 +30,11 @@ setup(
     package_dir={'': 'src'},
     zip_safe=False,  # because templates are loaded from file path
     install_requires=[
-        'ralph>=1.2.2',
-        'ralph_assets>=1.0.0',
-        'django-mptt==0.5.5',
+        'numpy',
+        'scipy',
     ],
     entry_points={
         'console_scripts': [
         ],
     },
-    classifiers=[
-        'Development Status :: 4 - Beta',
-        'Framework :: Django',
-        'Intended Audience :: System Administrators',
-        'License :: OSI Approved :: Apache Software License',
-        'Natural Language :: English',
-        'Operating System :: POSIX',
-        'Operating System :: MacOS :: MacOS X',
-        'Operating System :: Microsoft :: Windows :: Windows NT/2000',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 2 :: Only',
-        'Topic :: Internet :: WWW/HTTP',
-    ]
 )
