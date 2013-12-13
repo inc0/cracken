@@ -26,9 +26,11 @@ setup(
     zip_safe=False,  # because templates are loaded from file path
     install_requires=[
         'numpy',
+        'pyaudio',
     ],
     entry_points={
         'console_scripts': [
+            'cracken = cracken.main:run',
         ],
     },
 )
