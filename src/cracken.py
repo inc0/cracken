@@ -1,50 +1,34 @@
 # -*- coding: utf-8 -*-
-import wave
-import pyaudio
+import alsaaudio
 
 from transform import Transformer
 from plugins import pitch
 
-
 RATE = 44100
 CHANNELS = 1
-CHUNK = 1024*8
-# WIN_SIZE = 256
+CHUNK = 1024
+
 
 
 def main():
-    # while True:
-    #     input_audio = sys.stdin.read(1024)
+    inp = alsaaudio.PCM(alsaaudio.PCM_CAPTURE)
+    inp.setchannels(CHANNELS)
+    inp.setrate(RATE)
+    inp.setformat(alsaaudio.PCM_FORMAT_S16_LE)
+    inp.setperiodsize(CHUNK)
 
-    pa = pyaudio.PyAudio()
+    out = alsaaudio.PCM(alsaaudio.PCM_PLAYBACK)
+    out.setchannels(CHANNELS)
+    out.setrate(RATE)
+    out.setformat(alsaaudio.PCM_FORMAT_S16_LE)
+    out.setperiodsize(CHUNK + 1000)
+    transformer = Transformer(pitch.pitch_up)
 
-    kwargs = dict(
-        format=pyaudio.paInt16,
-        channels=CHANNELS,
-        rate=RATE,
-        frames_per_buffer=CHUNK,
-    )
-
-    inp = pa.open(input=True, **kwargs)
-    out = pa.open(output=True, **kwargs)
-    wf = wave.open('sample.wav', 'w')
-    wf.setnchannels(CHANNELS)
-    transformer = Transformer(pitch.pitch_down)
-
-    try:
-        inp.start_stream()
-        out.start_stream()
-        while True:
-            data = inp.read(CHUNK)
+    while True:
+        l, data = inp.read()
+        if data:
             transformed = transformer.transform(data)
             out.write(transformed)
-            #out.write(data)
-
-    finally:
-        inp.stop_stream()
-        out.stop_stream()
-        inp.close()
-        out.close()
 
 if __name__ == '__main__':
     main()
